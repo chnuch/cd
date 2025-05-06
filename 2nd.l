@@ -1,6 +1,6 @@
 %{
-#include<stdio.h>
-#include<string.h>
+#include <stdio.h>
+#include <string.h>
 
 struct symtab {
     char *name;
@@ -9,44 +9,44 @@ struct symtab {
 struct symtab sym[10], *k;
 struct symtab *install_id(char *s);
 void disp();
-
 %}
 
-L [a-zA-Z]
-D [0-9]
-id {L}({L}|{D})*
-num {D}+(\.{D}+)?([eE][-+]?{D}+)?
-bop [-+*/=]
-uop "++"|"--"
-relop "<"|"<="|">"|">="|"!="|"=="
-lop "&&"|"||"
+L      [a-zA-Z]
+D      [0-9]
+id     {L}({L}|{D})*
+num    {D}+(\.{D}+)?([eE][-+]?{D}+)?
+bop    [-+*/=]
+uop    "++"|"--"
+relop  "<"|"<="|">"|">="|"!="|"=="
+lop    "&&"|"||"
 bitlop [&|!]
-kew "if"|"else"|"while"|"do"|"for"|"int"|"char"|"float"
-pun [,;'"\[\]\{\}\)\(]
+kew    "if"|"else"|"while"|"do"|"for"|"int"|"char"|"float"
+pun    [,;'"\[\]\{\}\)\(]
 comment "/\*"(.|\n)*"\*/"|"//"(.)*
-ws [ \t\n]+
-st \"(.)*\"
+ws     [ \t\n]+
+st     \"(.)*\"
 
 %%
 
-{ws} {}
-{kew} {printf("keyword=%s\n", yytext);}
-{id} {k = install_id(yytext); printf("identifier =%s\n", yytext);}
-{num} {printf("constant =%s\n", yytext);}
-{bop} {printf("binary op =%s\n", yytext);}
-{uop} {printf("unary op =%s\n", yytext);}
-{relop} {printf("relational op=%s\n", yytext);}
-{lop} {printf("logical op =%s\n", yytext);}
-{pun} {printf("punct =%s\n", yytext);}
-{bitlop} {printf("bitwise logical op=%s\n", yytext);}
-{comment} {printf("comment =%s\n", yytext);}
-{st} {printf("string =%s\n", yytext);}
+{ws}         { /* ignore whitespace */ }
+{kew}        { printf("keyword = %s\n", yytext); }
+{id}         { k = install_id(yytext); printf("identifier = %s\n", yytext); }
+{num}        { printf("constant = %s\n", yytext); }
+{bop}        { printf("binary op = %s\n", yytext); }
+{uop}        { printf("unary op = %s\n", yytext); }
+{relop}      { printf("relational op = %s\n", yytext); }
+{lop}        { printf("logical op = %s\n", yytext); }
+{pun}        { printf("punct = %s\n", yytext); }
+{bitlop}     { printf("bitwise logical op = %s\n", yytext); }
+{comment}    { printf("comment = %s\n", yytext); }
+{st}         { printf("string = %s\n", yytext); }
 
 %%
 
-main() {
-    yylex();  // Start lexing input
-    disp();   // Display symbol table after lexing
+int main() {
+    yylex();   // Start lexing input
+    disp();    // Display symbol table after lexing
+    return 0;
 }
 
 // Function to install identifiers in the symbol table
@@ -79,6 +79,6 @@ int yywrap() {
     return 1;  // End of input
 }
 
-ommand:lex second.l
+command:lex second.l
 gcc lex.yy.c -o second
 ./second
