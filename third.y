@@ -44,3 +44,8 @@ int yyerror(char* msg)
 {
     return 1;
 }
+
+command:yacc -d third.y
+lex third.y
+gcc lex.yy.c y.tab.c -o third
+./third
